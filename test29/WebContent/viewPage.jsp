@@ -11,7 +11,7 @@
 <body>
 <%
 	String encType = "UTF-8";
-	String saveFolder = "C:/Users/최봉진/Desktop/새폴더";
+	String saveFolder = "C:/folder";
 	int maxSize = 5*1024*1024;
 	try{
 			MultipartRequest multi = null;
