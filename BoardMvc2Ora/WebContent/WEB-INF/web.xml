@@ -2,7 +2,28 @@
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
   <display-name>BoardMvc2Ora</display-name>
   
+  <servlet>
+  <servlet-name>ControllerAction</servlet-name>
+  <servlet-class>my.controller.ControllerAction</servlet-class>
+  <!-- 여기서 메서드 또는 클래스 생성시 my.controller를 패키지 이름에
+       ControllerAction를 클래스 이름으로 지정함 슈퍼클래스는 HttpServlet 검색 후 지정-->
+  <init-param>
+  <param-name>propertyConfig</param-name>
+  <param-value>WEB-INF/CommandPro.properties</param-value>
+  <!-- 생성한 properties 우클릭후 경로 복사(WEB-INF 부터 복사 할 것) -->
+  </init-param>
+  </servlet>
+  <servlet-mapping>
+  <servlet-name>ControllerAction</servlet-name>
+  <url-pattern>*.do</url-pattern>
+  </servlet-mapping>
   
+  <resource-ref>
+  <description>Server Pool Connection</description> <!-- 얘는 주석임 걍 -->
+  <res-ref-name>jdbc/oracle</res-ref-name><!-- 얘를 참조 할거다 -->
+  <res-type>oracle.jdbc.pool.OracleDataSource</res-type> <!-- 타입이 뭐냐 -->
+  <res-auth>Container</res-auth>
+  </resource-ref>
   
   <welcome-file-list>
     <welcome-file>index.html</welcome-file><!-- 얘들은 사이트의 초기문서 -->
