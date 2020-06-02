@@ -68,30 +68,32 @@
 <p>
 <%
 	if(totalRecords>0){
-		int block = 10;
+		int block = 5;
 		int pageCount = totalRecords/pageRecords+((totalRecords%pageRecords==0)? 0 : 1);
-		int startPage = ((nowPage-1)/10)*10+1;
+		int startPage = ((nowPage-1)/5)*5+1;
 		int endPage = startPage+block-1;
 		
 		if(endPage>pageCount) {
 			endPage = pageCount;
 		}
-		for(int i=startPage;i<=endPage;i++){
-		if(10<startPage){
+		
+		if(5<startPage){
 			%>
-			<a href="list.jsp?pageNum=<%=startPage-10%>">[이전]</a>
+			<a href="list.jsp?pageNum=<%=startPage-5%>">[이전]</a>
 			<% 
 		}
+		for(int i=startPage;i<=endPage;i++){
 		%>
 		<a href="list.jsp?pageNum=<%=i%>">[<%=i%>]</a>
 		<%
+		}
 		if(endPage<pageCount){
 			%>
-			<a href="list.jsp?pageNum=<%=startPage+10%>">[다음]</a>
+			<a href="list.jsp?pageNum=<%=startPage+5%>">[다음]</a>
 		<%
 			}
 		}
-	}
+	
 %>
 </p>
 </div>
