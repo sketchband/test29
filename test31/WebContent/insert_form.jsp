@@ -14,6 +14,7 @@ function zipCheck(){
 }
 </script>
 <center><h2>주소입력</h2></center>
+<form name="reg" method="post" action="insetProc.jsp">
 <div align="center">
 <table>
 <tr>
@@ -22,6 +23,7 @@ function zipCheck(){
 <tr>
 <td>주소</td><td><input name="address"></td>
 </tr>
+</form>
 </table>
 </div>
 </body>
