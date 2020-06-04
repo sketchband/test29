@@ -1,4 +1,4 @@
-create table board(
+create table board2(
 num int not null,
 writer varchar2(10) not null,
 email varchar2(30) default null,
@@ -13,8 +13,8 @@ content varchar2(2000) not null,
 ip varchar(20) not null,
 primary key(num));
 
-drop table board;
+drop table board2;
 
 create sequence board_num_seq;
 
-select * from board;
+select * from board2;
