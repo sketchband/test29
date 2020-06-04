@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -83,5 +85,74 @@ public class BoardDBBean {
 			if(stmt!=null) try {stmt.close();}catch(SQLException e) {}
 			if(con!=null) try {con.close();}catch(SQLException e) {}
 		}
+	}
+	
+	public int getArticleCount() throws Exception{
+		Connection con = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		String sql = null;
+		int count = 0;
+		
+		try {
+			con = getConnection();
+			sql = "select count(*) from board";
+			stmt = con.prepareStatement(sql);
+			rs = stmt.executeQuery();
+			if(rs.next()) {
+				count = rs.getInt(1);
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			if(rs!=null) try {rs.close();}catch(Exception e) {}
+			if(stmt!=null) try {stmt.close();}catch(Exception e) {}
+			if(con!=null) try {con.close();}catch(Exception e) {}
+		}
+		return count;
+	}
+	
+	public List getArticles(int start,int end)throws Exception {
+		Connection con = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		List articleList = null;
+		
+		try {
+			con = getConnection();
+			String sql = "select a.* from (select ROWNUM as RNUM, b.* from ( select * from board order by ref desc,pos asc, where ref = ? and pos > ? )b)a where a.RNUM>=? and a.RNUM<=?";
+			stmt = con.prepareStatement(sql);
+			stmt.setInt(1, start);
+			stmt.setInt(2, end);
+			rs = stmt.executeQuery();
+			
+			if(rs.next()) {
+				articleList = new ArrayList(end);
+				do {
+					BoardDataBean bean = new BoardDataBean();
+					bean.setNum(rs.getInt("num"));
+					bean.setWriter(rs.getString("writer"));
+					bean.setEmail(rs.getString("email"));
+					bean.setSubject(rs.getString("subject"));
+					bean.setPasswd(rs.getString("passwd"));
+					bean.setReg_date(rs.getTimestamp("reg_date"));
+					bean.setReadcount(rs.getInt("readcount"));
+					bean.setRef(rs.getInt("ref"));
+					bean.setPos(rs.getInt("pos"));
+					bean.setDepth(rs.getInt("depth"));
+					bean.setContent(rs.getString("content"));
+					bean.setIp(rs.getString("ip"));
+					articleList.add(bean);
+				}while(rs.next());
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			if(rs!=null) try {rs.close();}catch(Exception e) {}
+			if(stmt!=null) try {stmt.close();}catch(Exception e) {}
+			if(con!=null) try {con.close();}catch(Exception e) {}
+		}
+		
+		return articleList;
 	}
 }
