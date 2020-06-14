@@ -1,6 +1,7 @@
 package my.action;
 
 import java.util.Collections;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,7 +27,7 @@ public class ListAction implements CommandAction{
 		int number = 0;
 		
 		List articleList = null;
-		BoardDBBean dao = new BoardDBBean();
+		BoardDBBean dao = BoardDBBean.getInstance();
 		count = dao.getArticleCount();
 		
 		if(count>0) {
@@ -36,12 +37,12 @@ public class ListAction implements CommandAction{
 		}
 		
 		number = count-(nowPage-1)*pageRecords;
-		request.setAttribute("nowPage", new Integer("nowPage"));
-		request.setAttribute("startRow", new Integer("startRow"));
-		request.setAttribute("endRow", new Integer("endRow"));
-		request.setAttribute("count", new Integer("count"));
-		request.setAttribute("pageRecords", new Integer("pageRecords"));
-		request.setAttribute("number", new Integer("number"));
+		request.setAttribute("nowPage", new Integer(nowPage));
+		request.setAttribute("startRow", new Integer(startRow));
+		request.setAttribute("endRow", new Integer(endRow));
+		request.setAttribute("count", new Integer(count));
+		request.setAttribute("pageRecords", new Integer(pageRecords));
+		request.setAttribute("number", new Integer(number));
 		request.setAttribute("articleList", articleList);
 		
 		return "list.jsp";

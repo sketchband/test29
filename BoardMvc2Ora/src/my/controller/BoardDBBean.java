@@ -120,8 +120,7 @@ public class BoardDBBean {
 		
 		try {
 			con = getConnection();
-			String sql = "select a.* from (select ROWNUM as RNUM, b.* from ( select * from board order by ref desc,pos asc, where ref = ? and pos > ? )b)a where a.RNUM>=? and a.RNUM<=?";
-			stmt = con.prepareStatement(sql);
+			stmt = con.prepareStatement(" select a.* " + " from ( " + " select ROWNUM as RNUM, b.* " + " from ( " + " select * " + " from board " + " order by ref desc,pos asc " + " ) b " + " ) a " + " where a.RNUM >= ? " + " and a.RNUM <= ? " );
 			stmt.setInt(1, start);
 			stmt.setInt(2, end);
 			rs = stmt.executeQuery();
@@ -155,4 +154,168 @@ public class BoardDBBean {
 		
 		return articleList;
 	}
+	
+	public BoardDataBean getArticle(int num) throws Exception{
+		Connection con = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		BoardDataBean bean = null;
+		
+		try {
+			con = getConnection();
+			String sql = " update board set readcount = readcount + 1 where num = ? ";
+			stmt = con.prepareStatement(sql);
+			stmt.setInt(1, num);
+			stmt.executeUpdate();
+			
+			sql = " select * from board where num = ? ";
+			stmt = con.prepareStatement(sql);
+			stmt.setInt(1, num);
+			rs = stmt.executeQuery();
+			if(rs.next()) {
+				bean = new BoardDataBean();
+				bean.setNum(rs.getInt("num"));
+				bean.setWriter(rs.getString("writer"));
+				bean.setEmail(rs.getString("email"));
+				bean.setSubject(rs.getString("subject"));
+				bean.setPasswd(rs.getString("passwd"));
+				bean.setReg_date(rs.getTimestamp("reg_date"));
+				bean.setReadcount(rs.getInt("readcount"));
+				bean.setRef(rs.getInt("ref"));
+				bean.setPos(rs.getInt("pos"));
+				bean.setDepth(rs.getInt("depth"));
+				bean.setContent(rs.getString("content"));
+				bean.setIp(rs.getString("ip"));
+				
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			if(rs!=null)try {rs.close();}catch(Exception e) {} 
+			if(stmt!=null)try {stmt.close();}catch(Exception e) {} 
+			if(con!=null)try {con.close();}catch(Exception e) {} 
+		}
+		return bean;
+	}
+	
+	public BoardDataBean updateGetArticle(int num) {
+		
+		Connection con = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		BoardDataBean bean = new BoardDataBean();
+		
+		try {
+			con = getConnection();
+			String sql="select * from board where num = ? ";
+			stmt = con.prepareStatement(sql);
+			stmt.setInt(1, num);
+			rs = stmt.executeQuery();
+			if(rs.next()) {
+				bean.setNum(rs.getInt("num"));
+				bean.setWriter(rs.getString("writer"));
+				bean.setEmail(rs.getString("email"));
+				bean.setSubject(rs.getString("subject"));
+				bean.setPasswd(rs.getString("passwd"));
+				bean.setReg_date(rs.getTimestamp("reg_date"));
+				bean.setReadcount(rs.getInt("readcount"));
+				bean.setRef(rs.getInt("ref"));
+				bean.setPos(rs.getInt("pos"));
+				bean.setDepth(rs.getInt("depth"));
+				bean.setContent(rs.getString("content"));
+				bean.setIp(rs.getString("ip"));
+			}
+				
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			if(rs!=null) try { rs.close();}catch(Exception e) {}
+			if(stmt!=null) try { stmt.close();}catch(Exception e) {}
+			if(con!=null) try { con.close();}catch(Exception e) {}
+		}
+		return bean;
+		
+	}
+	
+	public int updateArticle(BoardDataBean article) throws Exception{
+		Connection con = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		
+		String dbpasswd="";
+		String sql = "";
+		int x = 1;
+		try {
+			con = getConnection();
+			sql = "select passwd from board where num = ? ";
+			stmt = con.prepareStatement(sql);
+			stmt.setInt(1, article.getNum());
+			rs = stmt.executeQuery();
+			
+			if(rs.next()) {
+				dbpasswd = rs.getString("passwd");
+				if(dbpasswd.equals(article.getPasswd())) {
+					sql = "update board set writer = ? , email = ? , subject = ? , passwd = ? ";
+					sql = sql + ", content = ? where num = ? ";
+					stmt = con.prepareStatement(sql);
+					
+					stmt.setString(1, article.getWriter());
+					stmt.setString(2, article.getEmail());
+					stmt.setString(3, article.getSubject());
+					stmt.setString(4, article.getPasswd());
+					stmt.setString(5, article.getContent());
+					stmt.setInt(6, article.getNum());
+					stmt.executeUpdate();
+					x = 1;
+				}else {
+					x = 0;
+				}
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			if(rs!=null) try {rs.close();}catch(Exception e) {}
+			if(stmt!=null) try {stmt.close();}catch(Exception e) {}
+			if(con!=null) try {con.close();}catch(Exception e) {}
+		}
+		return x;
+	}
+	
+	
+	public int deleteArticle(int num,String passwd) {
+		Connection con = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		String dbpass = "";
+		int x = -1;
+		
+		try {
+			con = getConnection();
+			String sql = "select passwd from board where num = ? ";
+			stmt = con.prepareStatement(sql);
+			stmt.setInt(1, num);
+			rs = stmt.executeQuery();
+			
+			if(rs.next()) {
+				dbpass = rs.getString("passwd");
+				if(passwd.equals(dbpass)) {
+					sql = "delete from board where num = ? ";
+					stmt = con.prepareStatement(sql);
+					stmt.setInt(1, num);
+					stmt.executeUpdate();
+					x = 1;
+				}else
+					x = 0;
+			}
+				
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			if(rs!=null) try {rs.close();}catch(Exception e) {}
+			if(stmt!=null) try {stmt.close();}catch(Exception e) {}
+			if(con!=null) try {con.close();}catch(Exception e) {}
+		}
+		return x;
+	}
+	
 }

@@ -24,6 +24,8 @@ public class WriteProAction implements CommandAction{
 		bean.setContent(request.getParameter("content"));
 		bean.setIp(request.getRemoteAddr());
 		
+		System.out.println(Integer.parseInt(request.getParameter("num")));
+		
 		BoardDBBean dao = BoardDBBean.getInstance();
 		dao.insertArticle(bean);
 		

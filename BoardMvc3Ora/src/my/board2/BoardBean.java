@@ -1,8 +1,9 @@
-package my.board;
+package my.board2;
+
 
 import java.sql.Timestamp;
 
-public class BoardDataBean {
+public class BoardBean {
 	
 	private int num;
 	private String writer;
@@ -89,3 +90,4 @@ public class BoardDataBean {
 		this.depth = depth;
 	}
 }
+

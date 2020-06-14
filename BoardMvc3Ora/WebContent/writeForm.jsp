@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@include file="/view/color.jspf" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,17 +14,17 @@
 <body bgcolor="${bodyback_c}">
 <center><b>글쓰기</b></center>
 <br>
-<form method="post" name="writeform" action="/BoardMvc2Ora/writePro.do" 
+<form method="post" name="writeform" action="/BoardMvc3Ora/writePro.do" 
 onsubmit="return writeSave()">
 <input type="hidden" name="num" value="${num}">
-<input type="hidden" name="ref" value="${ref }">
-<input type="hidden" name="pos" value="${pos }">
-<input type="hidden" name="depth" value="${depth }">
+<input type="hidden" name="ref" value="${ref}">
+<input type="hidden" name="pos" value="${pos}">
+<input type="hidden" name="depth" value="${depth}">
 
 <table width="400" border="1" cellspacing="0" cellpadding="0" align="center">
 <tr>
 <td align="right" colspan="2" bgcolor="${value_c }">
-<a href="/boardMvc2Ora/list.do">글목록</a>
+<a href="/boardMvc3Ora/list.do">글목록</a>
 </td>
 </tr>
 <tr>
@@ -62,7 +61,7 @@ onsubmit="return writeSave()">
 <td colspan=2 bgcolor="${value_c }" align="center">
 <input type="submit" value="글쓰기">
 <input type="reset" value="다시작성">
-<input type="button" value="목록보기" onclick="window.location='/BoardMvc2Ora/list.do'">
+<input type="button" value="목록보기" onclick="window.location='/BoardMvc3Ora/list.do'">
 </td></tr></table>
 </form>
 </body>

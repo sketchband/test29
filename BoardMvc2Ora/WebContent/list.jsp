@@ -1,3 +1,4 @@
+<%@page import="my.controller.BoardDBBean"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
@@ -9,11 +10,11 @@
 <title>게시판</title>
 </head>
 <body bgcolor="${bodyback_c}">
-<center><b>글목록(전체 글:${count})</b></center>
+<center><b>글목록(전체 글:${count})</b>
 <table width="700">
 <tr>
 <td align="right" bgcolor="${value_c}">
-<a href="BoardMvc2Ora/writeForm.do">글쓰기</a>
+<a href="/BoardMvc2Ora/writeForm.do">글쓰기</a>
 </td>
 </tr>
 </table>
@@ -40,9 +41,54 @@
 </tr>
 
 <c:forEach var="article" items="${articleList}">
-
+<tr height="30">
+<td align="center" width="50">
+<c:out value="${number}"/>
+<c:set var="number" value="${number - 1}"/>
+</td>
+<td width="250">
+<c:if test="${article.pos>0}">
+<img alt="" src="">
+<img alt="" src="">
+</c:if>
+<c:if test="${article.pos==0}">
+<img alt="" src="">
+</c:if>
+<a href="/BoardMvc2Ora/content.do?num=${article.num}&pageNum=${nowPage}">${article.subject}</a>
+<c:if test="${article.readcount>=20}">
+<img alt="" src="">
+</c:if>
+</td>
+<td align="center" width="100">
+<a href="mailto:${article.email}">${article.writer}</a>
+</td>
+<td align="center" width="150">${article.reg_date}</td>
+<td align="center" width="50">${article.readcount}</td>
+<td align="center" width="100">${article.ip}</td>
+</tr>
 </c:forEach>
 </table>
 </c:if>
+
+<c:if test="${count>0}">
+<c:set var="pageCount"  value="${count/pageRecords+(count%pageRecords==0? 0 : 1) }"/>
+<c:set var="startPage"  value="${nowPage/pageRecords+1}"/>
+<c:set var="endPage"  value="${startPage+10}"/>
+
+<c:if test="${endPage>pageCount}">
+<c:set var = "endPage" value="${pageCount}" />
+</c:if>
+<c:if test="${startPage>10}">
+<a href="/BoardMvc2Ora/list.do?pageNum=${startPage-10}">[이전]</a>
+</c:if>
+<c:forEach var="i" begin = "${startPage}" end="${endPage}">
+<a href="BoardMvc2Ora/list.do?pageNum=${i}">${i}</a>
+</c:forEach>
+<c:if test="${endPage<pageCount}">
+<a href="/BoardMvc2Ora/list.do?pageNum=${startPage+10}">[다음]</a>
+	</c:if>
+</c:if>
+</center>
+
 </body>
 </html>
