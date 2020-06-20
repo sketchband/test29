@@ -1,22 +1,25 @@
-<%@page import="my.board5.BoardDAO"%>
-<%@page import="my.board5.BoardBean"%>
 <%@page import="java.util.Vector"%>
+<%@page import="my.board6.BoardBean"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>   
-<%@ include file= "/view/color.jspf" %>    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
+<%@ include file= "/view/color.jspf" %>     
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>게시판</title>
 </head>
+<% 
+	//BoardBean bean = new BoardBean();
+	//Vector<BoardBean> vlist = request.getAttribute("vlist");
+%>
 <body bgcolor="${bodyback_c}">
 <center><b>글목록(전체 글:${count})</b>
 <table width="700">
 <tr>
 <td align="right" bgcolor="${value_c}">
-<a href="/BoardMvc5Ora/postForm.do">글쓰기</a>
+<a href="/BoardMvc6Ora/postForm.do">글쓰기</a>
 </td>
 </tr>
 </table>
@@ -42,11 +45,10 @@
 <td align="center" width="100">IP</td>
 </tr>
 
-<c:forEach var="article" items="${vlist}">
+<c:forEach var="article" items="${vlist2}">
 <tr height="30">
 <td align="center" width="50">
-<c:out value="${number}"/>
-<c:set var="number" value="${number - 1}"/>
+<c:out value="${article.num}"/>
 </td>
 <td width="250">
 <c:if test="${article.pos>0}">
@@ -56,7 +58,7 @@
 <c:if test="${article.pos==0}">
 <img alt="" src="">
 </c:if>
-<a href="/BoardMvc5Ora/read.do?num=${article.num}&pageNum=${nowPage}">${article.subject}</a>
+<a href="/BoardMvc6Ora/read.do?num=${article.num}&pageNum=${nowPage}">${article.subject}</a>
 <c:if test="${article.readcount>=20}">
 <img alt="" src="">
 </c:if>
@@ -81,13 +83,13 @@
 <c:set var = "endPage" value="${pageCount}" />
 </c:if>
 <c:if test="${startPage>10}">
-<a href="/BoardMvc5Ora/list.do?pageNum=${startPage-10}">[이전]</a>
+<a href="/BoardMvc6Ora/list.do?pageNum=${startPage-10}">[이전]</a>
 </c:if>
 <c:forEach var="i" begin = "${startPage}" end="${endPage}">
-<a href="BoardMvc5Ora/list.do?pageNum=${i}">${i}</a>
+<a href="/BoardMvc6Ora/list.do?pageNum=${i}">${i}</a>
 </c:forEach>
 <c:if test="${endPage<pageCount}">
-<a href="/BoardMvc5Ora/list.do?pageNum=${startPage+10}">[다음]</a>
+<a href="/BoardMvc6Ora/list.do?pageNum=${startPage+10}">[다음]</a>
 	</c:if>
 </c:if>
 </center>

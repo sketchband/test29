@@ -1,27 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
-<display-name>BoardMvc5Ora</display-name>
-<servlet>
-<servlet-name>ControllerAction5</servlet-name>
-<servlet-class>my.controller5.ControllerAction5</servlet-class>
-<init-param>
-<param-name>propertyConfig</param-name>
-<param-value>/WEB-INF/CommandPro.properties</param-value>
-</init-param>
-</servlet>
-
-<servlet-mapping>
-<servlet-name>ControllerAction5</servlet-name>
-<url-pattern>*.do</url-pattern>
-</servlet-mapping>
-
- <resource-ref>
-  <description>Server Pool Connection</description> <!-- 얘는 주석임 걍 -->
+  <display-name>BoardMvc6Ora</display-name>
+  
+  <servlet>
+  <servlet-name>ControllerAction6</servlet-name>
+  <servlet-class>my.controller6.ControllerAction6</servlet-class>
+  <init-param>
+  <param-name>propertyConfig</param-name>
+  <param-value>/WEB-INF/CommandPro6.properties</param-value>
+  </init-param>
+  </servlet>
+  
+  <servlet-mapping>
+  <servlet-name>ControllerAction6</servlet-name>
+  <url-pattern>*.do</url-pattern>
+  </servlet-mapping>
+  
+  <resource-ref>
+    <description>Server Pool Connection</description> <!-- 얘는 주석임 걍 -->
   <res-ref-name>jdbc/oracle</res-ref-name><!-- 얘를 참조 할거다 -->
   <res-type>oracle.jdbc.pool.OracleDataSource</res-type> <!-- 타입이 뭐냐 -->
-  <res-auth>Container</res-auth>
+  <res-auth>Container</res-auth> 
   </resource-ref>
-
+  
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>
     <welcome-file>index.htm</welcome-file>

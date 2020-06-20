@@ -29,7 +29,8 @@ public class postProAction implements commandAction5{
 		bean.setContent(req.getParameter("content"));
 		
 		BoardDAO dao = BoardDAO.getInstance();
-		dao.insertDate(bean);	
+		dao.insertDate(bean);
+		//dao2.insertArticle(bean);	
 		return "postProc.jsp";
 	}
 	

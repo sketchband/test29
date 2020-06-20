@@ -44,14 +44,14 @@ public class BoardDBBean {
 		
 		try {
 			con = getConnection();
-			stmt = con.prepareStatement("select max(num) from board");
+			stmt = con.prepareStatement("select max(num) from board3");
 			rs = stmt.executeQuery();
 			if(rs.next())
 				number = rs.getInt(1)+1;
 			else
 				number = 1;
 			if(num!=0) {
-				sql = "update board set pos = pos+1 where ref = ? and pos > ?";
+				sql = "update board3 set pos = pos+1 where ref = ? and pos > ?";
 				stmt = con.prepareStatement(sql);
 				stmt.setInt(1, ref);
 				stmt.setInt(2, pos);
@@ -63,7 +63,7 @@ public class BoardDBBean {
 				pos = 0;
 				depth = 0;
 			}
-			sql = "insert into board(num,writer,email,subject,passwd,reg_date,";
+			sql = "insert into board3(num,writer,email,subject,passwd,reg_date,";
 			sql = sql + "ref,pos,depth,content,ip)"
 					  + " values(board_num_seq.nextval,?,?,?,?,?,?,?,?,?,?)";
 			stmt = con.prepareStatement(sql);
